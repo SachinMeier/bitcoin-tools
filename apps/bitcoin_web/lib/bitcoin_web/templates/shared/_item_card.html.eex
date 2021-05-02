@@ -1,0 +1,10 @@
+<%= link to: @to do %>
+<div class="item-wrapper">
+	<div class="item-title">
+		<strong><%= @option.title %></strong>
+	</div>
+	<div class="item-description">
+		<%= @option.description %>
+	</div>
+</div>
+<% end %>

@@ -1,0 +1,20 @@
+<section class="row">
+	<article class="column">
+		<%= render(BitcoinWeb.LayoutView, "_header.html", title: "Public Key Options") %>
+		<ul class="item-list">
+      <%= for option <- @options do %>
+        <li>
+          <%= render(BitcoinWeb.SharedView, "_item_card.html", to: Routes.public_key_path(@conn, :new, option: option.name), option: option) %>
+        </li>
+      <% end %>
+    </ul>
+	</article>
+	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+			%{text: "home", to: Routes.page_path(@conn, :index)}
+		])
+	%>
+</section>
+
+<section class="row">
+
+</section>

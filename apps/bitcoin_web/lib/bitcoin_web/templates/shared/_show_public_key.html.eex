@@ -1,0 +1,15 @@
+<h2 class="data-heading"><%= @title %></h2>
+<% compressed = try do if @conn.assigns[:compressed], do: true, else: false rescue _ -> true end %>
+<% cmp = if compressed, do: "Compressed", else: "Uncompressed" %>
+<% {:ok, prefix, x_hex, y_hex} = Bitcoin.PublicKey.split_public_key(@public_key) %>
+
+<p class="data-title"><%= cmp %> SEC:</p>
+
+<p class="data data-inline data-linked" id="pk_pfx" name="pk_pfx"><%= prefix %></p
+><p class="data data-inline data-linked" id="pk_x" name="pk_x"><%= x_hex %></p
+><% if cmp do %><p class="data data-inline data-linked" id="pk_y" name="pk_y"><%= y_hex %></p><% end %>
+
+<br><p class="data-title">X:</p> 
+<p class="data data-inline data-linked" id="pk_x" name="pk_x"><%= x_hex %></p>
+<br><p class="data-title">Y:</p> 
+<p class="data data-inline data-linked" id="pk_y" name="pk_y"><%= y_hex %></p>

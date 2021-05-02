@@ -1,0 +1,41 @@
+.item {
+	color: #000000;
+}
+
+.item-header {
+	margin: 20px 0;
+
+	h1 {
+		margin: 0 auto;
+	}
+}
+
+.item-list {
+	list-style: none;
+}
+
+.item-wrapper {
+	border: 2px solid $black;
+	border-radius: $round-corners;
+	padding: 5px;
+
+	&:hover {
+		border-color: $gray-dark;
+		background-color: $black-light;
+
+		.item-description {
+			color: $white;
+		}
+	}
+}
+
+.item-title {
+	font-size: 20px;
+	text-transform: uppercase;
+	color: $white;
+}
+
+.item-description {
+	color: $gray-lighter;
+}
+

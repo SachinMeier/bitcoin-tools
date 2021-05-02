@@ -1,0 +1,13 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :private_key %>
+	<%= text_input f, :private_key %>
+	<%= error_tag f, :private_key %>
+
+	<%= label f, :message %>
+	<%= text_input f, :message %>
+
+	<div>
+		<%= submit "sign" %>
+	</div>
+<% end %>

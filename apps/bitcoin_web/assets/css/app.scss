@@ -1,0 +1,28 @@
+/* import utilities and variables */
+@import "./utilities/vars/colors.scss";
+@import "./utilities/vars/style.scss";
+@import "./utilities/vars/fonts.scss";
+@import "./utilities/vars/layout.scss";
+
+// fonts
+@import "./utilities/fonts/text.scss";
+
+
+/* This file is for your main application css. */
+@import "./phoenix.css";
+
+// components
+@import "./public/components/alert.scss";
+@import "./public/components/button.scss";
+@import "./public/components/form.scss";
+@import "./public/components/link.scss";
+
+
+@import "./public/body.scss";
+@import "./public/header.scss";
+@import "./public/layout.scss";
+@import "./public/misc.scss";
+@import "./public/nav.scss";
+
+@import "./bitcoin/main.scss";
+@import "./bitcoin/data.scss";

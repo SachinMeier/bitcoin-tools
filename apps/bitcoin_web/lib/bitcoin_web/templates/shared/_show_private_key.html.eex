@@ -1,0 +1,15 @@
+<%= if @conn.assigns[:network] != nil do %>
+	<h2 class="data-heading"><%= String.capitalize (to_string @network) %> Private Key:</h2>
+	<p class="data-title">Raw Private Key:</p>
+	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_hex(@private_key) %></p>
+	<p class="data-title">WIF Encoding (<%= to_string @network %>):</p>
+	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, @network) %></p>
+<% else %>
+	<h2 class="data-heading">Private Key:</h2>
+	<p class="data-title">Raw Private Key:</p>
+	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_hex(@private_key) %></p>
+	<p class="data-title">WIF Encoding (mainnet):</p>
+	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, :mainnet) %></p>
+	<p class="data-title">WIF Encoding (testnet):</p>
+	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, :testnet) %></p>
+<% end %>

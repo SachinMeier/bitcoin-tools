@@ -1,0 +1,11 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :public_key %>
+	<%= text_input f, :public_key %>
+	<%= error_tag f, :public_key %>
+
+	<div>
+		<%= submit "parse" %>
+	</div>
+<% end %>
+<%# ex: KzhWomzFUcCPHacuWEEiV49zAeQRoPMPe2MXzfLpJY75hCyDrWVQ %>

@@ -1,0 +1,6 @@
+<% msg = if String.length(@message) > 200, do: String.slice(@message, 0..200) <>"...", else: @message %>
+<h2 class="data-heading">Message:</h2>
+<p class="data-title">Message:</p>
+<p class="data data-inline"><%= msg %></p>
+<p class="data-title">Message Hash (z):</p>
+<p class="data data-inline"><%= @z %></p>

@@ -1,0 +1,23 @@
+.data {
+	word-wrap: break-word;
+
+	&-title {
+		font-weight: $font-weight-bold;
+		margin-top: $title-break;
+		margin-bottom: $para-break;
+	}
+	&-heading {
+		margin-top: $head-break;
+		margin-bottom: $title-break;
+	}
+
+
+}
+.data-hover {
+	color: $orange;
+}
+
+.data-inline {
+	display: inline-block;
+	margin: 0;
+}

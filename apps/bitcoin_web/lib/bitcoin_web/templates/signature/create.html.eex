@@ -1,0 +1,14 @@
+<section class="row">
+	<article class="column">
+		<%= render(BitcoinWeb.LayoutView, "_header.html", title: @option.title) %>
+
+		<%= render("_#{@option.name}_signature_form.html", conn: @conn, action: Routes.signature_path(@conn, :create, option: @option.name)) %>
+
+	</article>
+
+	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "signature home", to: Routes.signature_path(@conn, :index)},
+			])
+		%>
+</section>

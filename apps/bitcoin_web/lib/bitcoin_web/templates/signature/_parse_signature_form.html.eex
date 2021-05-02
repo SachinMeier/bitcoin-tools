@@ -1,0 +1,10 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :signature %>
+	<%= text_input f, :signature %>
+	<%= error_tag f, :signature %>
+
+	<div>
+		<%= submit "parse" %>
+	</div>
+<% end %>

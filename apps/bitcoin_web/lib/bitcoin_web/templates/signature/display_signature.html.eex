@@ -1,0 +1,26 @@
+<section class="row">
+	
+	<article class="column">
+		<%= render(BitcoinWeb.LayoutView, "_header.html", title: "Display Signature") %>
+		<%= render(BitcoinWeb.SharedView, "_show_signature.html", signature: @signature) %>
+
+		<%= if @conn.assigns[:message] != nil and @conn.assigns[:z] != nil do %>
+			<%= render(BitcoinWeb.SharedView, "_show_message.html", message: @message, z: @z) %>
+		<% end %>
+
+		<%= if @conn.assigns[:public_key] != nil do %>
+			<%= render(BitcoinWeb.SharedView, "_show_public_key.html", conn: @conn, public_key: @public_key, title: "Public Key") %>
+		<% end %>
+	</article>
+
+	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "signature home", to: Routes.signature_path(@conn, :index)},
+			])
+		%>
+</section>
+<section class="row">
+	<article class="column">
+		<%= link "#{if @option == :new, do: "create", else: @option} another signature", to: Routes.signature_path(@conn, @option), class: "button" %>	
+	</article>
+</section>

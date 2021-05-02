@@ -1,0 +1,16 @@
+<section class="row">
+	<article class="column">
+		<%= render(BitcoinWeb.LayoutView, "_header.html", title: "Parsed Public Key") %>
+		<%= render(BitcoinWeb.SharedView, "_show_public_key.html", public_key: @public_key, title: "Public Key:") %>
+	</article>
+	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "public key home", to: Routes.public_key_path(@conn, :index)},
+			])
+		%>
+</section>
+<section class="row">
+	<article class="column">
+		<%= link "#{@option} another public key", to: Routes.public_key_path(@conn, :new, option: @option), class: "button" %>	
+	</article>
+</section>

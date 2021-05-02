@@ -1,0 +1,15 @@
+<h2>Signature</h2>
+<% {prefix, length, r_key_prefix, r_key_len, r, s_key_prefix, s_key_len, s} = Bitcoin.Signature.split_signature(@signature) %>
+<p class="data data-title">DER encoding:</p>
+<p class="data data-inline data-linked" id="sig_pfx" name="sig_pfx"><%= prefix %></p
+><p class="data data-inline data-linked" id="sig_len" name="sig_len"><%= length %></p
+><p class="data data-inline data-linked" id="sig_rpfx" name="sig_rpfx"><%= r_key_prefix %></p
+><p class="data data-inline data-linked" id="sig_rlen" name="sig_rlen"><%= r_key_len %></p
+><p class="data data-inline data-linked" id="sig_r" name="sig_r"><%= r %></p
+><p class="data data-inline data-linked" id="sig_spfx" name="sig_spfx"><%= s_key_prefix %></p
+><p class="data data-inline data-linked" id="sig_slen" name="sig_slen"><%= s_key_len %></p
+><p class="data data-inline data-linked" id="sig_s" name="sig_s"><%= s %></p>
+<p class="data data-title" >R-value (hex):</p>
+<p class="data data-inline data-linked" name="sig_r" id="sig_r"><%= r %></p>
+<p class="data data-title" id="s">S-value (hex):</p>
+<p class="data data-inline data-linked" name="sig_s" id="sig_s"><%= s %></p>

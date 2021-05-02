@@ -1,0 +1,14 @@
+<section class="row">
+	<article class="column">
+		<%= render(BitcoinWeb.LayoutView, "_header.html", title: "Parse Private Key") %>
+
+		<%= render("_parse_private_key_form.html", conn: @conn, action: Routes.private_key_path(@conn, :create)) %>
+	
+	</article>
+
+	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "private key home", to: Routes.private_key_path(@conn, :index)},
+			])
+		%>
+</section>

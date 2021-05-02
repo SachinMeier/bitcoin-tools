@@ -1,0 +1,20 @@
+/* Headers */
+header {
+  width: 100%;
+  background: #fdfdfd;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 2rem;
+  position: sticky;
+}
+header section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
+  header nav ul {
+    margin: 1rem;
+  }
+}
+
