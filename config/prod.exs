@@ -10,8 +10,8 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :bitcoin_web, BitcoinWeb.Endpoint,
-  cache_static_manifest: "priv/static/cache_manifest.json"
-  url: [host: "bitcoinscript.info", port: 443]
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  url: [host: "bitcoinscript.info", port: 443],
   https: [
     port: 443,
     cipher_suite: :strong,
