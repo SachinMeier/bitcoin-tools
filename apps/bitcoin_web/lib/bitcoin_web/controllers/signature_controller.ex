@@ -19,16 +19,27 @@ defmodule BitcoinWeb.SignatureController do
 
   # VERIFY
   def display(conn, %{"signature"=> signature, "public_key" => public_key, "message" => message}) do
-    {:ok, pubkey} = Bitcoin.PublicKey.parse_public_key(public_key)
+    check_not_null(%{signature: signature, 
+                      public_key: public_key,
+                      message: message},
+      fn m -> display_verify(conn, m) end,
+      fn -> conn
+            |> put_flash(:error, "fields cannot be blank")   
+            |> verify(%{}) end
+    )
+  end
+
+  defp display_verify(conn, m) do
+    {:ok, pubkey} = Bitcoin.PublicKey.parse_public_key(m.public_key)
     z =
-      message
+      m.message
       |> Bitcoinex.Utils.double_sha256()
       |> :binary.decode_unsigned()
-    {:ok, sig} = Bitcoin.Signature.parse_signature(signature)
+    {:ok, sig} = Bitcoin.Signature.parse_signature(m.signature)
     if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
       conn
-      |> put_flash(:error, "valid signature")
-      |> render("display_signature.html", signature: sig, message: message, z: z, public_key: pubkey, option: :verify)
+      |> put_flash(:info, "valid signature")
+      |> render("display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: :verify)
     else
       conn
         |> put_flash(:error, "invalid signature/public key pair")
@@ -36,62 +47,74 @@ defmodule BitcoinWeb.SignatureController do
     end
   end
 
+
+
   # PARSE
   def display(conn, %{"signature" => signature}) do
-    case Bitcoin.Signature.parse_signature(signature) do
+    check_not_null(%{signature: signature},
+      fn m -> display_parse(conn, m) end,
+      fn ->
+        conn
+        |> put_flash(:info, "signature cannot be blank")
+        |> parse(%{}) end
+    )
+  end
+
+  defp display_parse(conn, m) do
+    IO.puts(m.signature)
+    case Bitcoin.Signature.parse_signature(m.signature) do
       {:ok, sig} -> render(conn, "display_signature.html", signature: sig, option: :parse)
       {:error, msg} ->
         conn
         |> put_flash(:error, msg)
-        |> render("parse.html")
+        |> parse(%{})
     end
   end
 
   # CREATE
   def display(conn, %{"private_key" => private_key, "message" => message}) do
-    case Bitcoin.PrivateKey.parse_private_key(private_key) do
+    check_not_null(%{private_key: private_key, message: message},
+      fn m -> display_new(conn, m) end, 
+      fn -> conn
+            |> put_flash(:error, "do not leave private key or message blank")
+            |> new(%{}) end
+    )
+    
+  end
+
+  defp display_new(conn, m) do
+    case Bitcoin.PrivateKey.parse_private_key(m.private_key) do
       {:error, _msg} ->
         conn
           |> put_flash(:error, "invalid private key.")
-          |> render("new.html")
+          |> new(%{})
       {:ok, prvkey, _network, _compressed} ->
         z =
-          message
+          m.message
           |> Bitcoinex.Utils.double_sha256()
           |> :binary.decode_unsigned()
         sig = Bitcoin.PrivateKey.sign_message_hash(prvkey, z)
         pubkey = Bitcoin.PrivateKey.to_public_key(prvkey)
         if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
-          render(conn, "display_signature.html", signature: sig, message: message, z: z, public_key: pubkey, option: :new)
+          render(conn, "display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: :new)
         else
           conn
             |> put_flash(:error, "signing failed.")
             |> render("new.html")
         end
     end
-
   end
 
-  # VERIFY
-  def create(conn, %{"signature" => signature, "public_key" => public_key, "message" => message}) do
-    redirect(conn, to: Routes.signature_path(conn, :display, option: "verify", signature: String.trim(signature), public_key: String.trim(public_key), message: String.trim(message)))
+  defp check_not_null(map, sc, fc) do
+    # Trim all strings
+    map = Enum.map(map, fn {k, v} -> {k, String.trim(v)} end)
+    nnull = fn {_, str} -> str != "" end
+    if Enum.all?(map, nnull) do 
+      sc.(Map.new(map))
+    else
+      fc.() 
+    end
   end
-
-  # PARSE
-  def create(conn, %{"signature" => signature}) do
-    redirect(conn, to: Routes.signature_path(conn, :display, option: "parse", signature: String.trim(signature)))
-  end
-
-  # CREATE
-  def create(conn, %{"private_key" => private_key, "message" => message}) do
-    redirect(conn, to: Routes.signature_path(conn, :display, option: "create", private_key: String.trim(private_key), message: message))
-  end
-
-
-
-
-
-
 
 
 end

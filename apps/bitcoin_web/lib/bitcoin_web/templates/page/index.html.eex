@@ -1,6 +1,11 @@
-<section class="row">
-  <article class="column">
-		<%= render("_header.html", title: "Bitcoin Options") %>
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+		%{text: "home", to: Routes.page_path(@conn, :index)},
+	])
+%>
+
+<article class="content">
+  
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Bitcoin Tools") %>
     <ul class="item-list">
       <%= for item <- @items do %>
         <li>
@@ -9,12 +14,5 @@
       <% end %>
     </ul>
 
-  </article>
-
-	<%= render("_subnav.html", subnav_items: [
-			%{text: "home", to: Routes.page_path(@conn, :index)},
-		])
-	%>
-
-</section>
+</article>
 

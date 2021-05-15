@@ -1,0 +1,18 @@
+<section class="row">
+	<article class="column">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Transaction") %>
+		<%# render(BitcoinWeb.SharedView, "_show_transaction.html", transaction: @transaction, title: "Transaction:") %>
+		<p>Version: </p><p><%= @transaction.version %></p>
+		
+	</article>
+	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "public key home", to: Routes.public_key_path(@conn, :index)},
+			])
+		%>
+</section>
+<section class="row">
+	<article class="column">
+		<%= link "#{@option} another transaction", to: Routes.transaction_path(@conn, :parse, option: @option), class: "button" %>	
+	</article>
+</section>

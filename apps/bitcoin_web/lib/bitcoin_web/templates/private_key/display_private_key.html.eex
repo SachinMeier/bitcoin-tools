@@ -1,22 +1,20 @@
-<section class="row">
-	
-	<article class="column">
-		<%= render(BitcoinWeb.LayoutView, "_header.html", title: "Display Private Key") %>
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "private key home", to: Routes.private_key_path(@conn, :index)},
+			])
+		%>
+
+<article class="content">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Display Private Key") %>
 		
 		<%= render(BitcoinWeb.SharedView, "_show_private_key.html", conn: @conn, private_key: @private_key, network: @network) %>
 		
 		<% public_key = Bitcoin.PrivateKey.to_public_key(@private_key) %>
 		<%= render(BitcoinWeb.SharedView, "_show_public_key.html", conn: @conn, public_key: public_key, compressed: @compressed, title: "Corresponding Public Key:") %>
+	
+</article>
 
-	</article>
-	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
-				%{text: "home", to: Routes.page_path(@conn, :index)},
-				%{text: "private key home", to: Routes.private_key_path(@conn, :index)},
-			])
-		%>
-</section>
-<section class="row">
-	<article class="column">
-		<%= link "parse another private key", to: Routes.private_key_path(@conn, :parse), class: "button" %>	
-	</article>
+<section class="next-steps">
+		<%= link "parse new private key", to: Routes.private_key_path(@conn, :parse), class: "button" %>	
+		<%= link "sign with private key", to: Routes.signature_path(@conn, :new, private_key: Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, @network)), class: "button" %>	
 </section>

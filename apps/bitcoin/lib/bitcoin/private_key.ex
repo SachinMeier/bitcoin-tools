@@ -42,7 +42,6 @@ defmodule Bitcoin.PrivateKey do
 
   def serialize_private_key_hex(key), do: Secp256k1.PrivateKey.serialize_private_key(key)
   def serialize_private_key_wif(key, network), do: Secp256k1.PrivateKey.wif!(key, network)
-  def to_public_key(key), do: Secp256k1.PrivateKey.to_point(key)
 
   def sign_message(key, msg) do
     z = Bitcoinex.Utils.double_sha256(msg)

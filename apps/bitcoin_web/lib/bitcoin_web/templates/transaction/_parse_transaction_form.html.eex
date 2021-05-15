@@ -1,0 +1,10 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :transaction_hex %>
+	<%= text_input f, :transaction_hex %>
+	<%= error_tag f, :transaction %>
+
+	<div>
+		<%= submit "parse" %>
+	</div>
+<% end %>

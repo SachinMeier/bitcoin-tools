@@ -18,25 +18,44 @@ defmodule BitcoinWeb.Router do
 
     get "/", PageController, :index
 
+    scope "/stats" do
+      get "/", StatsController, :index
+    end
+
     scope "/public-key" do
-      resources "/", PublicKeyController, only: [:index, :new, :create]
-      get "/display", PublicKeyController, :display, singleton: true
+      resources "/", PublicKeyController, only: [:index, :new]
+      get "/display", PublicKeyController, :display
+      post "/display", PublicKeyController, :display
+
     end
 
     scope "/private-key" do
-      resources "/", PrivateKeyController, only: [:index, :create]
-      get "/parse", PrivateKeyController, :parse, singleton: true
-      get "/display", PrivateKeyController, :display, singleton: true
+      resources "/", PrivateKeyController, only: [:index]
+      get "/parse", PrivateKeyController, :parse
+      get "/display", PrivateKeyController, :display
+      post "/display", PrivateKeyController, :display
       get "/sign_message", PrivateKeyController, :sign_message
       get "/convert", PrivateKeyController, :convert
     end
 
     scope "/signature" do
-      resources "/", SignatureController, only: [:index, :new, :create]
-      get "/parse", SignatureController, :parse, singleton: true
-      get "/display", SignatureController, :display, singleton: true
-      get "/verify", SignatureController, :verify, singleton: true
+      resources "/", SignatureController, only: [:index, :new]
+      get "/parse", SignatureController, :parse
+      get "/display", SignatureController, :display
+      post "/display", SignatureController, :display
+      get "/verify", SignatureController, :verify
     end
+
+    scope "/transaction" do
+      resources "/", TransactionController, only: [:index]
+      get "/display", TransactionController, :display
+      post "/display", TransactionController, :display
+      get "/parse", TransactionController, :parse
+      get "/verify", TransactionController, :verify
+
+    end
+
+    
 
 
   end

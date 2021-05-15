@@ -2,6 +2,7 @@
 	width: 100%;
 	position: fixed;
 	top: 0;
+	left: 0;
 	background-color: $black;
 	z-index: 1000;
 }
@@ -13,7 +14,7 @@
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	height: 60px;
+	height: $navbar-height;
 
 	a {
 		height: 100%;
@@ -38,16 +39,17 @@
 }
 
 // SUB NAV
-
-.column-subnav {
-	width: 20%;
-	max-width: 400px;
-	text-align: center;
-	margin-top: 20px;
+.subnav {
+  display: flex;
+  flex-direction: column;
+	padding:0;
+  width: $subnav-width;
+	margin-right: $subnav-margin;
 }
 
 .subnav-list {
 	list-style: none;
+	text-align: center;
 }
 
 .subnav-button {

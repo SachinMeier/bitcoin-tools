@@ -1,4 +1,4 @@
-<article class="column-subnav">
+<aside class="subnav">
 	<ul class="subnav-list">
 	<%= for item <- @subnav_items do %>
 		<%= link( to: item.to) do %>
@@ -11,4 +11,4 @@
 		<% end %>
 	<% end %>
 	</ul>
-</article>
+</aside>

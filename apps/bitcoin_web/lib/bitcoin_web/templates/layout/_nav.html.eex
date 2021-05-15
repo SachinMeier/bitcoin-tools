@@ -1,10 +1,7 @@
 <nav class="nav-wrapper" role="navigation">
   <ul class="nav-list">
-		<%= link(to: "http://localhost:5000/") do %>
-			<li>home</li>
-		<% end %>
 		<%= link(to: Routes.page_path(@conn, :index)) do %>
-			<li>bitcoin script</li>
+			<li>home</li>
 		<% end %>
 		<%= link(to: "http://sachinmeier.com") do %>
 			<li>about me</li>

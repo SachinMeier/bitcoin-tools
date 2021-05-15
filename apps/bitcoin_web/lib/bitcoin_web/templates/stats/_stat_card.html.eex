@@ -1,0 +1,5 @@
+<div class="stats-item">
+	<h2 class="stats-item-title"><%= @stat.title %></h2>
+	<p class="stats-item-data"><%= BitcoinWeb.StatsView.render_stat(@stat.data_point, @stat.unit) %></p> 
+	<p class="stats-item-unit"><%= @stat.unit %></p>
+</div>

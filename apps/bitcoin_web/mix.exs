@@ -47,7 +47,7 @@ defmodule BitcoinWeb.MixProject do
       {:bitcoin, in_umbrella: true},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-
+      {:money, "~> 1.8"}
     ]
   end
 

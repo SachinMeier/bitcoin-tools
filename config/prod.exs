@@ -10,8 +10,15 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :bitcoin_web, BitcoinWeb.Endpoint,
-  url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "bitcoinscript.info", port: 443],
+      https: [
+        port: 443,
+        cipher_suite: :strong,
+        keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
+        certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
+        transport_options: [socket_opts: [:inet6]]
+      ]
 
 # ## SSL Support
 #
@@ -20,14 +27,14 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
 #
 #     config :bitcoin_web, BitcoinWeb.Endpoint,
 #       ...
-#       url: [host: "example.com", port: 443],
-#       https: [
-#         port: 443,
-#         cipher_suite: :strong,
-#         keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
-#         certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
-#         transport_options: [socket_opts: [:inet6]]
-#       ]
+      # url: [host: "example.com", port: 443],
+      # https: [
+      #   port: 443,
+      #   cipher_suite: :strong,
+      #   keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
+      #   certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
+      #   transport_options: [socket_opts: [:inet6]]
+      # ]
 #
 # The `cipher_suite` is set to `:strong` to support only the
 # latest and more secure SSL ciphers. This means old browsers
@@ -46,7 +53,8 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
-
+config :bitcoin_web, BitcoinWeb.Endpoint,
+    force_ssl: [hsts: true]
 # Do not print debug messages in production
 config :logger, level: :info
 

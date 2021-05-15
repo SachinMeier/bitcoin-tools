@@ -1,0 +1,7 @@
+<h2 class="data-heading"><%= @title %></h2>
+
+<p class="data data-inline"><span id="tx_version" name="tx_version" class="data-linked"><%= @transaction.version %>
+
+
+<p class="data-title">Version:</p>
+<p class="data data-inline data-linked" id="tx_version" name="tx_version"><%= @transaction.version%></p>

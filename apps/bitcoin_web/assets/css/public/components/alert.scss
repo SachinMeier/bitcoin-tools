@@ -1,4 +1,14 @@
 /* Alerts and form errors */
+$hide-after: 3s;
+$ease-in-time: 1s;
+
+.alert-wrapper {
+  width: 100%;
+  padding-top: $navbar-height;
+  margin: 0 auto;
+  max-width: $content-max-width;
+}
+
 .alert {
   padding: 15px;
   margin-bottom: 20px;
@@ -15,7 +25,7 @@
   background-color: $black;
   border-color: $white;
 }
-.alert-danger {
+.alert-error {
   color: $black;
   background-color: $white;
   border-color: $black;
@@ -45,22 +55,36 @@
   animation-fill-mode: forwards;
 }
 @keyframes cssAnimation {
-  to {
-      width:0;
-      height:0;
-      margin: 0;
-      padding: 0;
-      border-width: 0;
-      overflow:hidden;
+  80% {
+    opacity: 0;
+  }
+  95% {
+    display: none;
+  }
+  100% {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    overflow:hidden;
+    opacity: 0;
+    display: none;
   }
 }
 @-webkit-keyframes cssAnimation {
-  to {
-      width:0;
-      height:0;
-      margin: 0;
-      padding: 0;
-      border-width: 0;
-      visibility:hidden;
+  80% {
+    opacity: 0;
+  }
+  95% {
+    display: none;
+  }
+  100% {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    overflow:hidden;
+    opacity: 0;
+    display: none;
   }
 }

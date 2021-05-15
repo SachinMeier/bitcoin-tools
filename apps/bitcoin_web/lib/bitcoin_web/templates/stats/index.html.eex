@@ -1,0 +1,9 @@
+<section class="stats">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Bitcoin Stats") %>
+    <div class="stats-list">
+      <%= for stat <- @stats do %>
+        <%= render(BitcoinWeb.StatsView, "_stat_card.html", stat: stat) %>
+      <% end %>
+    </div>
+</section>
+
