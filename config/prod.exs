@@ -11,14 +11,14 @@ use Mix.Config
 # before starting your production server.
 config :bitcoin_web, BitcoinWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
-  url: [host: "bitcoinscript.info", port: 443],
-      https: [
-        port: 443,
-        cipher_suite: :strong,
-        keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
-        certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
-        transport_options: [socket_opts: [:inet6]]
-      ]
+  url: [host: "bitcoinscript.info", port: 443]
+  https: [
+    port: 443,
+    cipher_suite: :strong,
+    keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
+    certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
+    transport_options: [socket_opts: [:inet6]]
+  ]
 
 # ## SSL Support
 #
