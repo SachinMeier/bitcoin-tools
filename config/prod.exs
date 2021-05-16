@@ -15,8 +15,8 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
   https: [
     port: 443,
     cipher_suite: :strong,
-    keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
-    certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
+    keyfile: "priv/cert/selfsigned_key.pem",
+    certfile: "priv/cert/selfsigned.pem",
     transport_options: [socket_opts: [:inet6]]
   ]
 
@@ -53,8 +53,8 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
-config :bitcoin_web, BitcoinWeb.Endpoint,
-    force_ssl: [hsts: true]
+# config :bitcoin_web, BitcoinWeb.Endpoint,
+#     force_ssl: [hsts: true]
 # Do not print debug messages in production
 config :logger, level: :info
 
