@@ -1,0 +1,18 @@
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+		%{text: "home", to: Routes.page_path(@conn, :index)},
+	])
+%>
+
+<article class="content">
+  
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Encoding Tools") %>
+    <ul class="item-list">
+      <%= for item <- @items do %>
+        <li>
+          <%= render(BitcoinWeb.SharedView, "_item_card.html", to: item.route.(@conn, :index), option: item) %>
+        </li>
+      <% end %>
+    </ul>
+
+</article>
+

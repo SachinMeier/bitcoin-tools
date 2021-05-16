@@ -3,27 +3,53 @@ defmodule Bitcoin.Transaction do
 
 
 	def parse_transaction(tx_hex) do
-		Transaction.decode(tx_hex)
+		{:ok, txn} = Transaction.decode(tx_hex)
+		split_transaction(txn)
 	end
 
-	# def split_transaction(txn) do
-	# 	tx_id = Transaction.transaction_id(txn)
-	# 	version = <<txn.version::little-size(32)>>
-  #   tx_in_count = serialize_compact_size_unsigned_int(length(txn.inputs))
-  #   inputs = Transaction.In.serialize_inputs(txn.inputs)
-  #   tx_out_count = serialize_compact_size_unsigned_int(length(txn.outputs))
-  #   outputs = Transaction.Out.serialize_outputs(txn.outputs)
-  #   lock_time = <<txn.lock_time::little-size(32)>>
+	def split_transaction(txn) do
+		tx_id = Transaction.transaction_id(txn)
+		version = txn.version |> :binary.encode_unsigned()
+		
+		tx_in_count = length(txn.inputs)
+    tx_in_count_varint = Transaction.Utils.serialize_compact_size_unsigned_int(tx_in_count)
+    input_strs = split_inputs(txn.inputs)
+		
+		tx_out_count = length(txn.outputs)
+    tx_out_count_varint = Transaction.Utils.serialize_compact_size_unsigned_int(tx_out_count)
+    output_strs = split_outputs(txn.outputs)
+    
+		lock_time = txn.lock_time |> :binary.encode_unsigned()
 
-	# 	{version, tx_in_count, inputs, tx_out_count, outputs, lock_time}
-	# end
+		{:ok, %{
+			tx_id: tx_id,
+			version: version,
+		 	
+			in_count_varint: tx_in_count_varint,
+			in_count_int: tx_in_count,
+		 	input_strs: input_strs,
+			inputs: txn.inputs,
+		 	
+			out_count_varint: tx_out_count_varint,
+			out_count_int: tx_out_count,
+		 	outputs: output_strs,
+			outputs: txn.outputs,
 
-	# def split_inputs([]), do: []
-	# def split_inputs([input | rest]) do
-	# 	[Transaction.In.serialize_inputs(input) | split_inputs(rest)]
-	# end
+		 	lock_time: lock_time
+		}}
+	end
 
-	# # copied from bitcoinex
+	def split_inputs([]), do: []
+	def split_inputs([input | rest]) do
+		[Transaction.In.serialize_inputs([input]) |> Base.encode16(case: :lower) | split_inputs(rest)]
+	end
+
+	def split_outputs([]), do: []
+	def split_outputs([output | rest]) do
+		[Transaction.Out.serialize_outputs([output]) | split_outputs(rest)]
+	end
+
+	# copied from bitcoinex
 	# defp parse(tx_bytes) do
 	# 		<<version::binary-size(4), remaining::binary>> = tx_bytes
 

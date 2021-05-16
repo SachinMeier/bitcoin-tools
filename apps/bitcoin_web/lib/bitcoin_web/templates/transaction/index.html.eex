@@ -1,20 +1,16 @@
-<section class="row">
-	<article class="column">
-		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Transaction Options") %>
-		<ul class="item-list">
-      <%= for option <- @options do %>
-        <li>
-          <%= render(BitcoinWeb.SharedView, "_item_card.html", to: Routes.transaction_path(@conn, :parse, option: option.name), option: option) %>
-        </li>
-      <% end %>
-    </ul>
-	</article>
-	<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
 			%{text: "home", to: Routes.page_path(@conn, :index)}
 		])
 	%>
-</section>
 
-<section class="row">
+<article class="content">
+	<%= render(BitcoinWeb.SharedView, "_header.html", title: "Transaction Options") %>
+	<ul class="item-list">
+    <%= for option <- @options do %>
+      <li>
+        <%= render(BitcoinWeb.SharedView, "_item_card.html", to: Routes.transaction_path(@conn, :parse, option: option.name), option: option) %>
+      </li>
+    <% end %>
+  </ul>
+</article>
 
-</section>

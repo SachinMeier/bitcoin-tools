@@ -4,4 +4,28 @@
 
 
 <p class="data-title">Version:</p>
-<p class="data data-inline data-linked" id="tx_version" name="tx_version"><%= @transaction.version%></p>
+<p class="data data-inline data-linked" id="tx_version" name="tx_version"><%= @transaction.version %></p>
+
+<p class="data-title">Input Count:</p
+><p class="data data-inline data-linked" id="tx_in_count" name="tx_in_count"><%= @transaction.in_count_int %>
+<% inputs = Enum.with_index(@transaction.inputs) %>
+<%= for {txin, idx} <- inputs do %>
+	<p class="data-title">Input <%= idx %>:</p>
+	<p class="data data-inline data-linked" id="tx_in_<%= idx %>_prevtx" name="tx_in_<%= idx %>_prevtx"
+	><%= txin.prev_txid %>:</p
+	><p class="data data-inline data-linked" id="tx_in_<%= idx %>_prevout" name="tx_in_<%= idx %>_prevout"
+	><%= txin.prev_vout %>
+
+	<%= if txin.script_sig != "" do %>
+		<p class="data-title">ScriptSig:</p>
+		<p class="data data-inline data-linked" id="tx_in_<%= idx %>_scriptsig" name="tx_in_<%= idx %>_scriptsig"
+		><%= txin.script_sig %></p>
+	<% end %>
+
+	<p class="data-title">Sequence:</p>
+	<p class="data data-inline data-linked" id="tx_in_<%= idx %>_sequence" name="tx_in_<%= idx %>_sequence"
+	><%= txin.sequence_no %></p>
+<% end %>
+
+<p class="data-title">Output Count:</p
+><p class="data data-inline data-linked" id="tx_out_count" name="tx_out_count"><%= @transaction.out_count_int %></p>

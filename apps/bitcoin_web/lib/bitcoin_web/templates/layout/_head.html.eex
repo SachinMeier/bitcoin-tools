@@ -1,0 +1,17 @@
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bitcoin</title>
+  <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+  <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+	<%# favicon %>
+	<link rel="shortcut icon" type="image/ico" href="<%= Routes.static_path(@conn, "/favicon.ico") %>"/>
+
+	<%# OG tags %>
+	<meta property="og:title" content="Bitcoin Tools" />
+	<meta property="og:description" content="Use and understand Bitcoin's Cryptography: Handle public and private keys, addresses, and signatures." />
+	<meta property="og:image" content="<%= Routes.static_path(@conn, "/images/bitcoinscript-logo.jpg") %>" />
+	<meta property="og:url" content="<%= @conn.request_path %>">
+	<meta property="og:type" content="website">
+</head>
