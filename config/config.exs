@@ -20,7 +20,8 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
   secret_key_base: "D9NrUXsoPDeyM6pfyh18WOGF3wTZTvo/d5SuH3G0WYKuIaSTuTAsFFyyGWHiyvzL",
   render_errors: [view: BitcoinWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Bitcoin.PubSub,
-  live_view: [signing_salt: "te1l/c3M"]
+  live_view: [signing_salt: "te1l/c3M"],
+  force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
 
 # Configures Elixir's Logger
 config :logger, :console,

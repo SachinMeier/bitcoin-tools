@@ -58,6 +58,10 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :bitcoin_web, BitcoinWeb.Endpoint,
+    force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
+
+
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
 import_config "prod.secret.exs"
