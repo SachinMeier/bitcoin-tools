@@ -1,0 +1,16 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :data %>
+	<%= text_input f, :data %>
+	<%= error_tag f, :data %>
+
+	<%= label f, :hex %>
+	<label class="switch">
+	  <%= checkbox f, :hex %>
+	  <span class="slider round"></span>
+	</label>
+
+	<div>
+		<%= submit "digest" %>
+	</div>
+<% end %>

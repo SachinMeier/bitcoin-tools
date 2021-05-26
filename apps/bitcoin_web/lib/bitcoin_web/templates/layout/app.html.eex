@@ -13,5 +13,6 @@
     <main role="main" class="container main">
       <%= @inner_content %>
     </main>
+    <%= render("_footer.html", conn: @conn) %>
   </body>
 </html>

@@ -1,0 +1,18 @@
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "encoder home", to: Routes.encoder_path(@conn, :index)},
+			])
+		%>
+
+<article class="content">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Encoding: #{@option.title}") %>
+
+		<%= render("_#{@option.form}_form.html", conn: @conn, action: Routes.encoder_path(@conn, @option.name)) %>
+
+		<%= if @result != nil do %>
+		<p>Result:</p>
+		<p><%= @result %></p>
+		<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @result) %>
+		<% end %>
+
+</article>

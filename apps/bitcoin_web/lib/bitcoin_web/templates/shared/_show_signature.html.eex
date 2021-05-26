@@ -9,7 +9,12 @@
 ><span class="data data-linked" id="sig_spfx" name="sig_spfx"><%= s_key_prefix %></span
 ><span class="data data-linked" id="sig_slen" name="sig_slen"><%= s_key_len %></span
 ><span class="data data-linked" id="sig_s" name="sig_s"><%= s %></p>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: Bitcoin.Signature.serialize_der_signature(@signature)) %>
+
 <p class="data-title" >R-value (hex):</p>
 <p class="data data-inline data-linked" name="sig_r" id="sig_r"><%= r %></p>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: r) %>
+
 <p class="data-title" id="s">S-value (hex):</p>
 <p class="data data-inline data-linked" name="sig_s" id="sig_s"><%= s %></p>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: s) %>

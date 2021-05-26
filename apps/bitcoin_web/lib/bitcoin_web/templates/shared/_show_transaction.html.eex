@@ -1,31 +1,80 @@
 <h2 class="data-heading"><%= @title %></h2>
 
-<p class="data data-inline"><span id="tx_version" name="tx_version" class="data-linked"><%= @transaction.version %>
+<% hex_inputs = Enum.with_index(@split_hex.inputs) %>
+<% hex_outputs = Enum.with_index(@split_hex.outputs) %>
+<p class="data-title">Transaction Hex:</p>
+<p class="data data-inline"><span class="data-linked" id="tx_version" name="tx_version"><%= @split_hex.version %></span
+><span class="data-linked" id="tx_in_count" name="tx_in_count"><%= @split_hex.in_count %></span
+><%= for {txin, idx} <- hex_inputs do %><span class="data-linked" id="tx_in_<%= idx %>_prevtx" name="tx_in_<%= idx %>_prevtx"
+><%= txin.prev_txid %></span
+><span class="data-linked" id="tx_in_<%= idx %>_prevout" name="tx_in_<%= idx %>_prevout"><%= txin.prev_vout %></span
+><span><%= txin.script_sig_len %></span
+><span class="data-linked" id="tx_in_<%= idx %>_scriptsig" name="tx_in_<%= idx %>_scriptsig"><%= txin.script_sig %></span
+><span class="data-linked" id="tx_in_<%= idx %>_sequence" name="tx_in_<%= idx %>_sequence"><%= txin.sequence_no %></span
+><% end %><span class="data-linked" id="tx_out_count" name="tx_out_count"><%= @split_hex.out_count %></span
+><%= for {txout, idx} <- hex_outputs do %><span class="data-linked" id="tx_out_<%= idx %>_value" name="tx_out_<%= idx %>_value"
+><%= txout.value %></span><span class="data-linked" id="tx_out_<%= idx %>_scriptpubkey_len" name="tx_out_<%= idx %>_scriptpubkey_len"
+><%= txout.script_len %></span><span class="data-linked" id="tx_out_<%= idx %>_scriptpubkey" name="tx_out_<%= idx %>_scriptpubkey"
+><%= txout.script_pub_key %></span><% end %><span class="data-linked" id="tx_locktime" name="tx_locktime"
+><%= @split_hex.lock_time %></span></p>
+
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @tx_hex) %>
+
+<p class="data-title">Transaction ID:</p>
+<p class="data data-inline"><p class="data data-inline data-linked" id="tx_id" name="tx_id"><%= @transaction.tx_id %></p>
+
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @transaction.tx_id) %>
 
 
 <p class="data-title">Version:</p>
 <p class="data data-inline data-linked" id="tx_version" name="tx_version"><%= @transaction.version %></p>
+
+<p class="data-title">Locktime:</p>
+<p class="data data-inline data-linked" id="tx_locktime" name="tx_locktime"><%= @transaction.lock_time %></p>
+
 
 <p class="data-title">Input Count:</p
 ><p class="data data-inline data-linked" id="tx_in_count" name="tx_in_count"><%= @transaction.in_count_int %>
 <% inputs = Enum.with_index(@transaction.inputs) %>
 <%= for {txin, idx} <- inputs do %>
 	<p class="data-title">Input <%= idx %>:</p>
-	<p class="data data-inline data-linked" id="tx_in_<%= idx %>_prevtx" name="tx_in_<%= idx %>_prevtx"
-	><%= txin.prev_txid %>:</p
-	><p class="data data-inline data-linked" id="tx_in_<%= idx %>_prevout" name="tx_in_<%= idx %>_prevout"
-	><%= txin.prev_vout %>
+	<p> <span class="data data-inline data-linked" id="tx_in_<%= idx %>_prevtx" name="tx_in_<%= idx %>_prevtx"
+	><%= txin.prev_txid %></span><span class="data data-inline">:</span
+	><span class="data data-inline data-linked" id="tx_in_<%= idx %>_prevout" name="tx_in_<%= idx %>_prevout"
+	><%= txin.prev_vout %></span></p>
 
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.prev_txid <> ":" <> Integer.to_string(txin.prev_vout)) %>
+	
 	<%= if txin.script_sig != "" do %>
 		<p class="data-title">ScriptSig:</p>
 		<p class="data data-inline data-linked" id="tx_in_<%= idx %>_scriptsig" name="tx_in_<%= idx %>_scriptsig"
 		><%= txin.script_sig %></p>
+
+		<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.script_sig) %>
+
 	<% end %>
 
-	<p class="data-title">Sequence:</p>
-	<p class="data data-inline data-linked" id="tx_in_<%= idx %>_sequence" name="tx_in_<%= idx %>_sequence"
+	<p class="data-title">Sequence:</p
+	><p class="data data-inline data-linked" id="tx_in_<%= idx %>_sequence" name="tx_in_<%= idx %>_sequence"
 	><%= txin.sequence_no %></p>
+
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.sequence_no) %>
 <% end %>
 
-<p class="data-title">Output Count:</p
-><p class="data data-inline data-linked" id="tx_out_count" name="tx_out_count"><%= @transaction.out_count_int %></p>
+<p class="data-title">Output Count:</p><p class="data data-inline data-linked" id="tx_out_count" name="tx_out_count"
+><%= @transaction.out_count_int %></p>
+<% outputs = Enum.with_index(@transaction.outputs) %>
+<%= for {txout, idx} <- outputs do %>
+	<p class="data-title">Output <%= idx %>:</p>
+	<p class="data-title">ScriptPubKey:</p>
+	<p class="data data-inline data-linked" id="tx_out_<%= idx %>_scriptpubkey" name="tx_out_<%= idx %>_scriptpubkey">
+	<%= txout.script_pub_key %></p>
+
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txout.script_pub_key) %>
+
+	<p class="data-title">Amount (sats)</p>
+	<p class="data data-inline data-linked" id="tx_out_<%= idx %>_value" name="tx_out_<%= idx %>_value">
+	<%= txout.value %></p>
+
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txout.value) %>
+<% end %>

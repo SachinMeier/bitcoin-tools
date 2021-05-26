@@ -379,10 +379,6 @@ a {
 a:focus, a:hover {
   color: #606c76; }
 
-.ccer {
-  max-width: 20px;
-  display: inline-block; }
-
 main {
   padding-top: 15px; }
 
@@ -443,8 +439,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #000000;
-  z-index: 1000; }
+  background-color: #000000; }
 
 .nav-list {
   border: 2px solid #ffffff;

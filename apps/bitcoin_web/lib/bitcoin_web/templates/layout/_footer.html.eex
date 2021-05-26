@@ -1,0 +1,8 @@
+<footer class="footer-wrapper">
+	<div class="footer-item-list">
+		<%= %>
+
+	</div>
+
+
+</footer>

@@ -10,6 +10,16 @@ defmodule Bitcoin.PrivateKey do
         {:ok, prv, network, true} -> {:ok, prv, network, true}
       end
     rescue
+      _ -> parse_int(prvkey)
+    end
+  end
+
+  defp parse_int(prvkey) do
+    try do
+      # Is int?
+      prv = String.to_integer(prvkey)
+      {:ok, %Secp256k1.PrivateKey{d: prv}, :mainnet, true}
+    rescue
       _ -> parse_hex(prvkey)
     end
   end
@@ -22,21 +32,13 @@ defmodule Bitcoin.PrivateKey do
         |> String.downcase()
         |> Base.decode16!(case: :lower)
         |> :binary.decode_unsigned()
-      {:ok, %Secp256k1.PrivateKey{d: prv}, nil, true}
-    rescue
-      _ -> parse_int(prvkey)
-    end
-  end
-
-  defp parse_int(prvkey) do
-    try do
-      # Is int?
-      prv = String.to_integer(prvkey)
-      {:ok, %Secp256k1.PrivateKey{d: prv}, nil, true}
+      {:ok, %Secp256k1.PrivateKey{d: prv}, :mainnet, true}
     rescue
       _ -> {:error, "invalid private key"}
     end
   end
+
+  
 
   def to_public_key(prvkey), do: Secp256k1.PrivateKey.to_point(prvkey)
 

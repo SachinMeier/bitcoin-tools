@@ -26,7 +26,7 @@ defmodule Bitcoin.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:bitcoinex, "~> 0.1.3"},
+      {:bitcoinex, "~> 0.1.4"},
       {:httpoison, "~> 1.8"},
       {:poison, "~> 4.0"}
       # {:dep_from_hexpm, "~> 0.3.0"},

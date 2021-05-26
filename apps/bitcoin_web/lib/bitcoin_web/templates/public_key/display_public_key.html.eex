@@ -6,7 +6,7 @@
 
 <article class="content">
 		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Parsed Public Key") %>
-		<%= render(BitcoinWeb.SharedView, "_show_public_key.html", public_key: @public_key, title: "Public Key:") %>
+		<%= render(BitcoinWeb.SharedView, "_show_public_key.html", conn: @conn, public_key: @public_key, title: "Public Key:") %>
 </article>
 
 <section class="next-steps">

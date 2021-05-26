@@ -35,14 +35,20 @@ defmodule BitcoinWeb.SignatureController do
       m.message
       |> Bitcoinex.Utils.double_sha256()
       |> :binary.decode_unsigned()
-    {:ok, sig} = Bitcoin.Signature.parse_signature(m.signature)
-    if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
-      conn
-      |> put_flash(:info, "valid signature")
-      |> render("display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: :verify)
-    else
-      conn
-        |> put_flash(:error, "invalid signature/public key pair")
+    case Bitcoin.Signature.parse_signature(m.signature) do
+      {:ok, sig} -> 
+        if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
+          conn
+          |> put_flash(:info, "valid signature")
+          |> render("display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: :verify)
+        else
+          conn
+          |> put_flash(:error, "invalid signature/public key pair")
+          |> render("create.html", option: BitcoinWeb.SignatureView.get_option("verify"))
+        end
+      {:error, msg} ->
+        conn
+        |> put_flash(:error, msg <> ". Make sure to remove sighash flags from Bitcoin signatures.")
         |> render("create.html", option: BitcoinWeb.SignatureView.get_option("verify"))
     end
   end
@@ -64,6 +70,10 @@ defmodule BitcoinWeb.SignatureController do
     IO.puts(m.signature)
     case Bitcoin.Signature.parse_signature(m.signature) do
       {:ok, sig} -> render(conn, "display_signature.html", signature: sig, option: :parse)
+      {:error, "invalid signature length"} ->
+        conn
+        |> put_flash(:error, "Invalid signature length. Make sure to remove sighash flags from Bitcoin signatures.")
+        |> parse(%{})
       {:error, msg} ->
         conn
         |> put_flash(:error, msg)

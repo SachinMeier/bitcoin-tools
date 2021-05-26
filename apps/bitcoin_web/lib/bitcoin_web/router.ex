@@ -26,7 +26,6 @@ defmodule BitcoinWeb.Router do
       resources "/", PublicKeyController, only: [:index, :new]
       get "/display", PublicKeyController, :display
       post "/display", PublicKeyController, :display
-
     end
 
     scope "/private-key" do
@@ -46,17 +45,25 @@ defmodule BitcoinWeb.Router do
       get "/verify", SignatureController, :verify
     end
 
-    scope "/transaction" do
-      resources "/", TransactionController, only: [:index]
-      get "/display", TransactionController, :display
-      post "/display", TransactionController, :display
-      get "/parse", TransactionController, :parse
-      get "/verify", TransactionController, :verify
+    # scope "/transaction" do
+    #   resources "/", TransactionController, only: [:index]
+    #   get "/display", TransactionController, :display
+    #   post "/display", TransactionController, :display
+    #   get "/parse", TransactionController, :parse
+    #   get "/verify", TransactionController, :verify
+    # end
 
+    scope "/encoder" do
+      get "/", EncoderController, :index
+      get "/sha256", EncoderController, :sha256
+      post "/sha256", EncoderController, :sha256
+      get "/ripemd160", EncoderController, :ripemd160
+      post "/ripemd160", EncoderController, :ripemd160
+      get "/hash160", EncoderController, :hash160
+      post "/hash160", EncoderController, :hash160
+      get "/hex", EncoderController, :hex
+      post "/hex", EncoderController, :hex
     end
-
-    
-
 
   end
 

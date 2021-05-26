@@ -1,18 +1,15 @@
 <%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
-		%{text: "home", to: Routes.page_path(@conn, :index)},
-	])
-%>
-
+			%{text: "home", to: Routes.page_path(@conn, :index)}
+		])
+	%>
+	
 <article class="content">
-  
-		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Encoding Tools") %>
-    <ul class="item-list">
-      <%= for item <- @items do %>
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Encoder Options") %>
+		<ul class="item-list">
+      <%= for option <- @options do %>
         <li>
-          <%= render(BitcoinWeb.SharedView, "_item_card.html", to: item.route.(@conn, :index), option: item) %>
+          <%= render(BitcoinWeb.SharedView, "_item_card.html", to: Routes.encoder_path(@conn, option.name), option: option) %>
         </li>
       <% end %>
     </ul>
-
 </article>
-

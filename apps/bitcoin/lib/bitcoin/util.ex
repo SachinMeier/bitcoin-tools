@@ -19,4 +19,10 @@ defmodule Bitcoin.Util do
     |> Base.encode16(case: :lower)
   end
 
+  def flip_endianness(hex) do
+    Base.decode16!(hex, case: :lower) 
+    |> :binary.encode_unsigned(:little) 
+    |> Base.encode16(case: :lower)
+  end
+
 end

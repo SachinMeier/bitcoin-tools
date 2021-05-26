@@ -8,7 +8,6 @@ defmodule Bitcoin.PublicKey do
         key
         |> String.downcase()
         |> Point.parse_public_key()
-      {:ok, res}
     rescue
       _ -> {:error, "failed to parse key"}
     end
@@ -54,7 +53,7 @@ defmodule Bitcoin.PublicKey do
     end
     end
   def verify_public_key(key) do
-    parse_public_key(key)
+    {:ok, key} = parse_public_key(key)
     Secp256k1.verify_point(key)
   end
 

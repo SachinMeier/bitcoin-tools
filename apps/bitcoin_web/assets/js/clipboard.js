@@ -1,13 +1,15 @@
 
 export default {
-	init: function (data) {  
-		data.select();
-		document.execCommand("copy");
+	init: function () {  
+		const copyButtons = document.querySelectorAll(".ccer");
+		copyButtons.forEach( item => {
+			item.addEventListener("click", () => {copyToClipboard(item);});
+		});
 	}
 }
-
+// very hacky. Looking for a better way to just copy the text.
 function copyTextToClipboard(text) {
-	// var textArea = document.createElement("textarea");
+	const textArea = document.createElement("textarea");
 	
 	textArea.value = text;
 
@@ -15,13 +17,12 @@ function copyTextToClipboard(text) {
 	textArea.focus();
 	textArea.select();
 
-	try {
-		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Copying text command was ' + msg);
-	} catch (err) {
-		console.log('Oops, unable to copy');
-	}
-
+	document.execCommand('copy');
 	document.body.removeChild(textArea);
+}
+
+function copyToClipboard(button) {
+  const element = button.nextElementSibling;
+	console.log(element);
+	copyTextToClipboard(element.innerHTML.trim());
 }

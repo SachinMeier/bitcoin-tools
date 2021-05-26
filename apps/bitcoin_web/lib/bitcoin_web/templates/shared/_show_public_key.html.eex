@@ -8,7 +8,15 @@
 <p class="data data-inline"><span id="pk_pfx" name="pk_pfx" class="data-linked"><%= prefix %></span
 ><span id="pk_x" name="pk_x" class="data-linked"><%= x_hex %></span
 ><% if cmp do %><span id="pk_y" name="pk_y" class="data-linked"><%= y_hex %></span><% end %></p>
+
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: prefix <> x_hex <> (if cmp, do: "", else: y_hex)) %>
+
 <br><p class="data-title">X:</p> 
 <p class="data data-inline data-linked" id="pk_x" name="pk_x"><%= x_hex %></p>
+<%# copy to clipboard %>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: x_hex) %>
+
 <br><p class="data-title">Y:</p> 
 <p class="data data-inline data-linked" id="pk_y" name="pk_y"><%= y_hex %></p>
+<%# copy to clipboard %>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: y_hex) %>

@@ -17,10 +17,14 @@ import "phoenix_html"
 // JS modules
 
 import LinkData from "./link_data.js";
+import Clipboard from "./clipboard.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	LinkData.init();
+	Clipboard.init();
 });
 
-import "./clipboard.js";
+
+
+
 

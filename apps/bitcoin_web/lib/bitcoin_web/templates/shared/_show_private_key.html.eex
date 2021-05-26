@@ -1,15 +1,28 @@
 <%= if @conn.assigns[:network] != nil do %>
 	<h2 class="data-heading"><%= String.capitalize (to_string @network) %> Private Key:</h2>
 	<p class="data-title">Raw Private Key:</p>
-	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_hex(@private_key) %></p>
+	<% hex_prv_key = Bitcoin.PrivateKey.serialize_private_key_hex(@private_key) %>
+	<p class="data data-inline"><%= hex_prv_key %></p>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_prv_key) %>
+	
 	<p class="data-title">WIF Encoding (<%= to_string @network %>):</p>
-	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, @network) %></p>
+	<% wif_prv_key = Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, @network) %>
+	<p class="data data-inline"><%= wif_prv_key %></p>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: wif_prv_key) %>
 <% else %>
 	<h2 class="data-heading">Private Key:</h2>
 	<p class="data-title">Raw Private Key:</p>
-	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_hex(@private_key) %></p>
+	<% hex_prv_key = Bitcoin.PrivateKey.serialize_private_key_hex(@private_key) %>
+	<p class="data data-inline"><%= hex_prv_key %></p>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_prv_key) %>
+
 	<p class="data-title">WIF Encoding (mainnet):</p>
-	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, :mainnet) %></p>
+	<% wif_mainnet = Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, :mainnet) %>
+	<p class="data data-inline"><%= wif_mainnet %></p>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: wif_mainnet) %>
+
 	<p class="data-title">WIF Encoding (testnet):</p>
-	<p class="data data-inline"><%= Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, :testnet) %></p>
+	<% wif_testnet = Bitcoin.PrivateKey.serialize_private_key_wif(@private_key, :testnet)%>
+	<p class="data data-inline"><%= wif_testnet %></p>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: wif_testnet) %>
 <% end %>

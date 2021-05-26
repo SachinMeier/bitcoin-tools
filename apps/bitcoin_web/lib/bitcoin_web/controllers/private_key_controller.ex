@@ -6,7 +6,7 @@ defmodule BitcoinWeb.PrivateKeyController do
   end
   # Parse
   def display(conn, %{"private_key" => prvkey}) do
-    case Bitcoin.PrivateKey.parse_private_key(prvkey) do
+    case Bitcoin.PrivateKey.parse_private_key(String.trim(prvkey)) do
       {:ok, prv, network, compressed} -> render(conn, "display_private_key.html", private_key: prv, network: network, compressed: compressed)
       {:error, msg} ->
         conn
@@ -19,10 +19,15 @@ defmodule BitcoinWeb.PrivateKeyController do
     render(conn, "parse.html")
   end
 
-  def create(conn, %{"private_key" => prvkey}) do
-    redirect(conn, to: Routes.private_key_path(conn, :display, private_key: String.trim(prvkey)))
-  end
+  # def create(conn, %{"private_key" => prvkey}) do
+  #   redirect(conn, to: Routes.private_key_path(conn, :display, private_key: String.trim(prvkey)))
+  # end
 
   def sign_message(conn, _params), do: redirect(conn, to: Routes.signature_path(conn, :new))
 
 end
+
+
+# HEX: a9db414c28b79b1645ae3c3da8f199d9955f1d92df8a1cdc2f4aff2a1de231a0
+# INT: 76828261584514996608806727349877622651960303777207076107181657033321193025952
+# WIF: L2utZ3kB1Y7PT8KmcbkSkbDgPaN6TA6zVfnaPo9pXp1iqdFSaW7Q

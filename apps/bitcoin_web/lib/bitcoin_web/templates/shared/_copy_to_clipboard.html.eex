@@ -1,0 +1,3 @@
+<%# copy to clipboard %>
+<img class="ccer" style="cursor:pointer;" src="<%= Routes.static_path(@conn, "/images/copy_icon.svg") %>" alt="Copy" />
+<textarea readonly hidden><%= @data %></textarea>
