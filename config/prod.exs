@@ -18,7 +18,8 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
     keyfile: "priv/cert/selfsigned_key.pem",
     certfile: "priv/cert/selfsigned.pem",
     transport_options: [socket_opts: [:inet6]]
-  ]
+  ],
+  force_ssl: [rewrite_on: [:x_forwarded_proto], hsts: true]
 
 # ## SSL Support
 #
@@ -57,9 +58,6 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
 #     force_ssl: [hsts: true]
 # Do not print debug messages in production
 config :logger, level: :info
-
-config :bitcoin_web, BitcoinWeb.Endpoint,
-    force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
 
 
 # Finally import the config/prod.secret.exs which loads secrets

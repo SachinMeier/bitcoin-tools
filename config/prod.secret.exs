@@ -17,13 +17,13 @@ config :bitcoin_web, BitcoinWeb.Endpoint,
     transport_options: [socket_opts: [:inet6]]
   ],
   secret_key_base: secret_key_base,
-  https: [
-    port: 443,
-    cipher_suite: :strong,
-    keyfile: "priv/cert/selfsigned_key.pem",
-    certfile: "priv/cert/selfsigned.pem",
-    transport_options: [socket_opts: [:inet6]]
-  ]
+  # https: [
+  #   port: 443,
+  #   cipher_suite: :strong,
+  #   keyfile: "priv/cert/selfsigned_key.pem",
+  #   certfile: "priv/cert/selfsigned.pem",
+  #   transport_options: [socket_opts: [:inet6]]
+  # ]
 
 # ## Using releases (Elixir v1.9+)
 #
