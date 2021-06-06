@@ -1,10 +1,5 @@
 # Bitcoin.Umbrella
 
-## Setup 
-
-  * Run ```echo "export SECRET_KEY_BASE=$(mix phx.gen.secret)" >> .env```
-
-
 ## Deploying to Gigalixir
 
   * Run ```cd apps/bitcoin_web/assets && npm run deploy && cd ../../..```
