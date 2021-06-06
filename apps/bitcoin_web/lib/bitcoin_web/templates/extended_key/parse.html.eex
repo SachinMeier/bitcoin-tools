@@ -1,0 +1,12 @@
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+				%{text: "home", to: Routes.page_path(@conn, :index)},
+				%{text: "extended key home", to: Routes.extended_key_path(@conn, :index)},
+			])
+		%>
+
+<article class="content">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Parse Extended Key") %>
+
+		<%= render("_parse_extended_key_form.html", conn: @conn, action: Routes.extended_key_path(@conn, :display)) %>
+
+</article>

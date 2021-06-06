@@ -1,0 +1,30 @@
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+			%{text: "home", to: Routes.page_path(@conn, :index)},
+			%{text: "extended key home", to: Routes.extended_key_path(@conn, :index)},
+		])
+	%>
+
+<article class="content">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Derived Extended Key") %>
+
+		<%= render(BitcoinWeb.SharedView, "_show_simple_extended_key.html", conn: @conn, xkey: @parent_key, title: "Parent Key:") %>
+
+		<%= render(BitcoinWeb.SharedView, "_show_full_extended_key.html", conn: @conn, xkey: @child_key, title: "Child Key:") %>
+
+		<%= render(BitcoinWeb.SharedView, "_show_derivation_path.html", conn: @conn, deriv_path: @deriv_path) %>
+</article>
+
+<section class="next-steps">
+		<%= link "Derive another child key", to: Routes.extended_key_path(@conn, :derive), class: "button" %>
+		<% {:ok, testnet, prv} = Bitcoin.ExtendedKey.get_xkey_data(@child_key) %>
+		<% key = Bitcoin.ExtendedKey.split_extended_key(@child_key).key %>
+		<%= if prv do %>
+			<%= link "Extract private key", to: 
+				Routes.private_key_path(@conn, :display, 
+					private_key: key), class: "button" %>
+		<% else %>
+			<%= link "Extract public key", to: 
+				Routes.public_key_path(@conn, :display, 
+					public_key: key, option: "parse"), class: "button" %>
+		<% end %>
+</section>

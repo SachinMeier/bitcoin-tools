@@ -2,14 +2,14 @@ defmodule BitcoinWeb.TransactionView do
   use BitcoinWeb, :view
 
   @opts [
-    %{name: :parse_transaction, title: "Parse Transaction", description: "Parse a Transaction from hex"},
+    %{name: :parse_transaction, title: "Parse Transaction", description: "Parse a Bitcoin Transaction from hex."},
     #%{name: :parse_psbt, title: "Parse PSBT", description: "Parse a Base64-encoded PSBT"},
   ]
 
   def get_transaction_options, do: @opts
 
-  def get_option(name_str) do
-    Enum.find(@opts, &(to_string(&1.name) == name_str))
+  def get_option(name) do
+    Enum.find(@opts, &(&1.name == name))
   end
 
 end

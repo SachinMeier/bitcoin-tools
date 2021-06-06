@@ -45,13 +45,13 @@ defmodule BitcoinWeb.Router do
       get "/verify", SignatureController, :verify
     end
 
-    # scope "/transaction" do
-    #   resources "/", TransactionController, only: [:index]
-    #   get "/display", TransactionController, :display
-    #   post "/display", TransactionController, :display
-    #   get "/parse", TransactionController, :parse
-    #   get "/verify", TransactionController, :verify
-    # end
+    scope "/transaction" do
+      get "/", TransactionController, :index
+      get "/display", TransactionController, :display
+      post "/display", TransactionController, :display
+      get "/parse", TransactionController, :parse
+      get "/verify", TransactionController, :verify
+    end
 
     scope "/encoder" do
       get "/", EncoderController, :index
@@ -63,6 +63,22 @@ defmodule BitcoinWeb.Router do
       post "/hash160", EncoderController, :hash160
       get "/hex", EncoderController, :hex
       post "/hex", EncoderController, :hex
+      get "/base58", EncoderController, :base58
+      post "/base58", EncoderController, :base58
+      get "/base64", EncoderController, :base64
+      post "/base64", EncoderController, :base64
+      get "/bech32", EncoderController, :bech32
+      post "/bech32", EncoderController, :bech32
+    end
+
+    scope "/extended-key" do
+      get "/", ExtendedKeyController, :index
+      # get "/from-seed", ExtendedKeyController, :seed_to_xprv
+      get "/derive", ExtendedKeyController, :derive
+      get "/parse", ExtendedKeyController, :parse
+      get "/convert", ExtendedKeyController, :convert
+      get "/display", ExtendedKeyController, :display
+      post "/display", ExtendedKeyController, :display
     end
 
   end

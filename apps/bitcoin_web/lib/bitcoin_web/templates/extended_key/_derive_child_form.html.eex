@@ -1,0 +1,16 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :extended_key %>
+	<%= text_input f, :extended_key, required: true %>
+	<%= error_tag f, :extended_key %>
+
+	<%= label f, :derivation_path %>
+	<%= text_input f, :deriv_path, required: true %>
+	<%= error_tag f, :deriv_path %>
+
+	<p class="nb">Both ' and h notation are accepted.</p>
+
+	<div>
+		<%= submit "derive" %>
+	</div>
+<% end %>

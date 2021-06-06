@@ -3,9 +3,8 @@ defmodule BitcoinWeb.EncoderController do
 
   def index(conn, _params) do
     render(conn, "index.html", 
-          options: BitcoinWeb.EncoderView.all_items())
-    #           page_title: "Encoding Tools", 
-    # page_description: BitcoinWeb.EncoderView.page_description()
+          options: BitcoinWeb.EncoderView.all_items(),
+          option: BitcoinWeb.PageView.get_option("encoder"))
   end
 
   def sha256(conn, %{"data" => data, "hex" => hex}) do
@@ -87,13 +86,95 @@ defmodule BitcoinWeb.EncoderController do
     render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:hex), result: nil)
   end
 
-  # def base58(conn, %{"data" => data}) do
-  #   render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base58))
-  # end
+  def base58(conn, %{"data" => data, "encode" => encode}) do
+    data = String.trim(data)
+    if data != "" do
+      case process_data(data, encode, :base58) do
+        {:ok, res} -> 
+          render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base58), data: data, result: res)
+        {:error, msg} ->
+          conn
+          |> put_flash(:error, "invalid data: " <> msg)
+          |> render( "new.html", option: BitcoinWeb.EncoderView.get_option(:base58), result: nil)
+      end
+    else
+      render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base58), result: nil)
+    end
+  end
+  def base58(conn, _params) do
+    render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base58), result: nil)
+  end
 
-  # def base64(conn, %{"data" => data}) do
-  #   render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base64))
-  # end
+  def base64(conn, %{"data" => data, "encode" => encode}) do
+    data = String.trim(data)
+    if data != "" do
+      case process_data(data, encode, :base64) do
+        {:ok, res} -> 
+          render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base64), data: data, result: res)
+        {:error, msg} ->
+          conn
+          |> put_flash(:error, "invalid data: " <> msg)
+          |> render( "new.html", option: BitcoinWeb.EncoderView.get_option(:base64), result: nil)
+      end
+    else
+      render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base64), result: nil)
+    end
+  end
+  def base64(conn, _params) do
+    render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:base64), result: nil)
+  end
+
+
+  # 000e140f070d1a001912060b0d081504140311021d030c1d03040f1814060e1e16
+  
+  def bech32(conn, %{"data" => data, "encode" => "false", "network" => network}) do
+    hrp = case network do
+      "bitcoin-mainnet" -> "bc"
+      "bitcoin-testnet" -> "tb"
+      "lightning-mainnet" -> "lnbc"
+      "lightning-testnet" -> "lntb"
+      "lightning-signet" -> "lntbs"
+      "lightning-regtest" -> "lnbcrt"
+    end
+
+    data = String.trim(data)
+    if data != "" do
+      case Bitcoin.Encoder.to_bech32(hrp, data) do
+        {:ok, res} -> 
+          render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32), data: data, hrp: hrp, result: res)
+        {:error, msg} ->
+          conn
+          |> put_flash(:error, "invalid data: " <> msg)
+          |> render( "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32), result: nil)
+      end
+    else
+      render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32), result: nil)
+    end
+  end
+  def bech32(conn, %{"data" => data, "encode" => "true", "network" => network}) do
+    data = String.trim(data)
+    if data != "" do
+      case Bitcoin.Encoder.from_bech32(data) do
+        {:ok, bech_version, hrp, hex} -> 
+          render(conn, "new.html", 
+            option: BitcoinWeb.EncoderView.get_option(:bech32), 
+            bech_version: bech_version,
+            hrp: hrp,
+            result: hex,
+            data: data)
+        {:error, msg} ->
+          conn
+          |> put_flash(:error, "invalid data: " <> msg)
+          |> render( "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32), result: nil)
+      end
+    else
+      render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32), result: nil)
+    end
+  end
+  def bech32(conn, _params) do
+    render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32), result: nil)
+  end
+  
 
   # def bech32(conn, %{"data" => data}) do
   #   render(conn, "new.html", option: BitcoinWeb.EncoderView.get_option(:bech32))
@@ -113,11 +194,11 @@ defmodule BitcoinWeb.EncoderController do
       {:hex, "false"} -> Bitcoin.Encoder.to_hex(data)
       {:hex, "true"} -> Bitcoin.Encoder.from_hex(data)
 
-      {:base58, "true"} -> {:error, "unimplemented"}
-      {:base58, "false"} -> {:error, "unimplemented"}
+      {:base58, "true"} -> Bitcoin.Encoder.from_base58(data)
+      {:base58, "false"} -> Bitcoin.Encoder.to_base58(data)
 
-      {:base64, "true"} -> {:error, "unimplemented"}
-      {:base64, "false"} -> {:error, "unimplemented"}
+      {:base64, "true"} -> Bitcoin.Encoder.from_base64(data)
+      {:base64, "false"} -> Bitcoin.Encoder.to_base64(data)
 
       {:bech32, "true"} -> {:error, "unimplemented"}
       {:bech32, "false"} -> {:error, "unimplemented"}

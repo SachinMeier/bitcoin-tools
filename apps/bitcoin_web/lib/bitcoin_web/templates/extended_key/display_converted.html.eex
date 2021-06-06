@@ -1,0 +1,20 @@
+<%= render(BitcoinWeb.SharedView, "_subnav.html", subnav_items: [
+			%{text: "home", to: Routes.page_path(@conn, :index)},
+			%{text: "extended key home", to: Routes.extended_key_path(@conn, :index)},
+		])
+	%>
+
+<article class="content">
+		<%= render(BitcoinWeb.SharedView, "_header.html", title: "Convert Extended Key") %>
+		
+		<%= render(BitcoinWeb.SharedView, "_show_simple_extended_key.html", conn: @conn, xkey: @xprv, title: "Extended Private Key:") %>
+
+		
+		<%= render(BitcoinWeb.SharedView, "_show_simple_extended_key.html", conn: @conn, xkey: @xpub, title: "Extended Public Key:") %>
+
+</article>
+
+<section class="next-steps">
+		<%= link "Convert another key", to: Routes.extended_key_path(@conn, :parse), class: "button" %>	
+		<%= link "Derive child key", to: Routes.extended_key_path(@conn, :derive, extended_key: Bitcoinex.ExtendedKey.display_extended_key(@xprv)), class: "button" %>
+</section>

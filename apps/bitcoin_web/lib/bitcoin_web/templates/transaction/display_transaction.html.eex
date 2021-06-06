@@ -11,5 +11,5 @@
 
 
 <section class="next-steps">
-		<%= link "#{@option} another transaction", to: Routes.transaction_path(@conn, :parse, option: @option), class: "button" %>	
+		<%= link "parse another transaction", to: Routes.transaction_path(@conn, :parse), class: "button" %>	
 </section>

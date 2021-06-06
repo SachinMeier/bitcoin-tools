@@ -2,7 +2,7 @@ defmodule BitcoinWeb.PublicKeyController do
   use BitcoinWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html", options: BitcoinWeb.PublicKeyView.get_public_key_options())
+    render(conn, "index.html", options: BitcoinWeb.PublicKeyView.get_public_key_options(), option: BitcoinWeb.PageView.get_option("public-key"))
   end
 
   # Parse
@@ -14,7 +14,7 @@ defmodule BitcoinWeb.PublicKeyController do
       |> render("new.html", option: BitcoinWeb.PublicKeyView.get_option(option))
     else
       case Bitcoin.PublicKey.parse_public_key(pubkey) do
-        {:ok, pubkey} -> render(conn, "display_public_key.html", public_key: pubkey, option: option)
+        {:ok, pubkey} -> render(conn, "display_public_key.html", public_key: pubkey, option: BitcoinWeb.PublicKeyView.get_option(option))
         {:error, item} ->
           conn
           |> put_flash(:error, item)
@@ -32,6 +32,10 @@ defmodule BitcoinWeb.PublicKeyController do
         |> render("new.html", option: BitcoinWeb.PublicKeyView.get_option(option)) end
     )
   end
+
+  def display(conn, _params) do
+		redirect(conn, to: Routes.public_key_path(conn, :index))
+	end
 
   defp display_serialize(conn, m) do
     case Bitcoin.PublicKey.serialize_public_key(m.x,m.y) do
@@ -58,8 +62,3 @@ defmodule BitcoinWeb.PublicKeyController do
     end
   end
 end
-
-
-
-#<button onclick="copyTextToClipboard('<%= Bitcoin.PublicKey.serialize_public_key(@public_key) %>')">copy to clipboard</button>
-#<a onclick="copyTextToClipboard('<%= Bitcoin.PublicKey.serialize_public_key(@public_key) %>')">copy to clipboard</a>

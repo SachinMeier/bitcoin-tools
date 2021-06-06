@@ -22,5 +22,5 @@
 </section>
 
 <section class="next-steps">
-		<%= link "#{if @option == :new, do: "create", else: @option} another signature", to: Routes.signature_path(@conn, @option), class: "button" %>
+		<%= link "#{if @option == :new, do: "create", else: to_string(@option.name)} another signature", to: Routes.signature_path(@conn, @option.name), class: "button" %>
 </section>

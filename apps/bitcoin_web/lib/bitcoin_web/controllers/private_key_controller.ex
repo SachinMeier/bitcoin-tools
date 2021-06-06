@@ -2,12 +2,14 @@ defmodule BitcoinWeb.PrivateKeyController do
   use BitcoinWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html", options: BitcoinWeb.PrivateKeyView.get_private_key_options())
+    render(conn, "index.html", 
+      options: BitcoinWeb.PrivateKeyView.get_private_key_options(), 
+      option: BitcoinWeb.PageView.get_option("private-key"))
   end
   # Parse
   def display(conn, %{"private_key" => prvkey}) do
     case Bitcoin.PrivateKey.parse_private_key(String.trim(prvkey)) do
-      {:ok, prv, network, compressed} -> render(conn, "display_private_key.html", private_key: prv, network: network, compressed: compressed)
+      {:ok, prv, network, _compressed} -> render(conn, "display_private_key.html", private_key: prv, network: network)
       {:error, msg} ->
         conn
         |> put_flash(:error, msg)
@@ -15,6 +17,10 @@ defmodule BitcoinWeb.PrivateKeyController do
     end
   end
 
+  def display(conn, _params) do
+		redirect(conn, to: Routes.private_key_path(conn, :index))
+	end
+  
   def parse(conn, _params) do
     render(conn, "parse.html")
   end

@@ -1,11 +1,11 @@
 <%= form_for @conn, @action, fn f -> %>
 
 	<%= label f, :private_key %>
-	<%= text_input f, :private_key %>
+	<%= text_input f, :private_key, required: true %>
 	<%= error_tag f, :private_key %>
 
 	<%= label f, :message %>
-	<%= text_input f, :message %>
+	<%= text_input f, :message, required: true %>
 
 	<div>
 		<%= submit "sign" %>

@@ -16,14 +16,14 @@
 ><%= txout.value %></span><span class="data-linked" id="tx_out_<%= idx %>_scriptpubkey_len" name="tx_out_<%= idx %>_scriptpubkey_len"
 ><%= txout.script_len %></span><span class="data-linked" id="tx_out_<%= idx %>_scriptpubkey" name="tx_out_<%= idx %>_scriptpubkey"
 ><%= txout.script_pub_key %></span><% end %><span class="data-linked" id="tx_locktime" name="tx_locktime"
-><%= @split_hex.lock_time %></span></p>
+><%= @split_hex.lock_time %></span>
 
-<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @tx_hex) %>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @tx_hex) %></p>
 
 <p class="data-title">Transaction ID:</p>
-<p class="data data-inline"><p class="data data-inline data-linked" id="tx_id" name="tx_id"><%= @transaction.tx_id %></p>
+<p class="data data-inline"><p class="data data-inline data-linked" id="tx_id" name="tx_id"><%= @transaction.tx_id %>
 
-<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @transaction.tx_id) %>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @transaction.tx_id) %></p>
 
 
 <p class="data-title">Version:</p>
@@ -41,24 +41,23 @@
 	<p> <span class="data data-inline data-linked" id="tx_in_<%= idx %>_prevtx" name="tx_in_<%= idx %>_prevtx"
 	><%= txin.prev_txid %></span><span class="data data-inline">:</span
 	><span class="data data-inline data-linked" id="tx_in_<%= idx %>_prevout" name="tx_in_<%= idx %>_prevout"
-	><%= txin.prev_vout %></span></p>
-
-	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.prev_txid <> ":" <> Integer.to_string(txin.prev_vout)) %>
+	><%= txin.prev_vout %></span>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.prev_txid <> ":" <> Integer.to_string(txin.prev_vout)) %></p>
 	
 	<%= if txin.script_sig != "" do %>
 		<p class="data-title">ScriptSig:</p>
 		<p class="data data-inline data-linked" id="tx_in_<%= idx %>_scriptsig" name="tx_in_<%= idx %>_scriptsig"
-		><%= txin.script_sig %></p>
+		><%= txin.script_sig %>
 
-		<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.script_sig) %>
+		<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.script_sig) %></p>
 
 	<% end %>
 
 	<p class="data-title">Sequence:</p
 	><p class="data data-inline data-linked" id="tx_in_<%= idx %>_sequence" name="tx_in_<%= idx %>_sequence"
-	><%= txin.sequence_no %></p>
+	><%= txin.sequence_no %>
 
-	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.sequence_no) %>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txin.sequence_no) %></p>
 <% end %>
 
 <p class="data-title">Output Count:</p><p class="data data-inline data-linked" id="tx_out_count" name="tx_out_count"
@@ -68,13 +67,13 @@
 	<p class="data-title">Output <%= idx %>:</p>
 	<p class="data-title">ScriptPubKey:</p>
 	<p class="data data-inline data-linked" id="tx_out_<%= idx %>_scriptpubkey" name="tx_out_<%= idx %>_scriptpubkey">
-	<%= txout.script_pub_key %></p>
+	<%= txout.script_pub_key %>
 
-	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txout.script_pub_key) %>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txout.script_pub_key) %></p>
 
 	<p class="data-title">Amount (sats)</p>
 	<p class="data data-inline data-linked" id="tx_out_<%= idx %>_value" name="tx_out_<%= idx %>_value">
-	<%= txout.value %></p>
+	<%= txout.value %>
 
-	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txout.value) %>
+	<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: txout.value) %></p>
 <% end %>

@@ -27,7 +27,7 @@ defmodule Bitcoin.Transaction do
 		tx_out_count = length(txn.outputs)
     tx_out_count_varint = Transaction.Utils.serialize_compact_size_unsigned_int(tx_out_count)
     
-		lock_time = txn.lock_time |> :binary.encode_unsigned()
+		lock_time = txn.lock_time |> :binary.encode_unsigned() |> Base.encode16(case: :lower)
 
 		{:ok, %{
 			tx_id: tx_id,

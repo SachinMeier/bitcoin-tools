@@ -1,0 +1,31 @@
+<%= form_for @conn, @action, fn f -> %>
+
+	<%= label f, :data %>
+	<%= text_input f, :data, required: true %>
+	<%= error_tag f, :data %>
+
+	<p class="nb">This field encodes 5-bit hex data, not witness program hex. Use the Address or Lightning Modules.</p>
+
+	<%= label f, :"encode / decode" %>
+	<label class="switch">
+	  <%= checkbox f, :encode %>
+	  <span class="slider round"></span>
+	</label>
+
+	<%= label f, :network %>
+	<input required checked="checked" style="display: inline;" type="radio" id="bitcoin-mainnet" name="network" value="bitcoin-mainnet"
+	>  <label class="data-option data-inline" for="bitcoin-mainnet">Bitcoin Mainnet</label><br>
+	<input style="display: inline;" type="radio" id="bitcoin-testnet" name="network" value="bitcoin-testnet"
+	>  <label class="data-option data-inline" for="bitcoin-testnet">Bitcoin Testnet</label><br>
+	<input style="display: inline;" type="radio" id="lightning-mainnet" name="network" value="lightning-mainnet"
+	>  <label class="data-option data-inline" for="lightning-mainnet">Lightning Mainnet</label><br>
+	<input style="display: inline;" type="radio" id="lightning-testnet" name="network" value="lightning-testnet"
+	>  <label class="data-option data-inline" for="lightning-testnet">Lightning Testnet</label><br>
+	<input style="display: inline;" type="radio" id="lightning-signet" name="network" value="lightning-signet"
+	>  <label class="data-option data-inline" for="lightning-signet">Lightning Signet</label><br>
+	<input style="display: inline;" type="radio" id="lightning-regtest" name="network" value="lightning-regtest"
+	>  <label class="data-option data-inline" for="lightning-regtest">Lightning Regtest</label><br>
+	<div>
+		<%= submit "encode / decode" %>
+	</div>
+<% end %>

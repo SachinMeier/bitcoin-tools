@@ -1,7 +1,7 @@
 <%= form_for @conn, @action, fn f -> %>
 
 	<%= label f, :data %>
-	<%= text_input f, :data %>
+	<%= text_input f, :data, required: true %>
 	<%= error_tag f, :data %>
 
 	<%= label f, :hex %>

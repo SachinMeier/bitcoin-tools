@@ -10,5 +10,5 @@
 </article>
 
 <section class="next-steps">
-		<%= link "#{@option} another public key", to: Routes.public_key_path(@conn, :new, option: @option), class: "button" %>	
+		<%= link "#{@option.name} another public key", to: Routes.public_key_path(@conn, :new, option: @option.name), class: "button" %>	
 </section>

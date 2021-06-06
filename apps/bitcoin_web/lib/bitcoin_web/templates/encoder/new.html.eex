@@ -11,8 +11,8 @@
 
 		<%= if @result != nil do %>
 		<p>Result:</p>
-		<p><%= @result %></p>
-		<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @result) %>
+		<p><%= @result %>
+		<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: @result) %></p>
 		<% end %>
 
 </article>

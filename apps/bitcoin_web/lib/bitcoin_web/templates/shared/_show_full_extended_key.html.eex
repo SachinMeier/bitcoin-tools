@@ -1,0 +1,31 @@
+<h2 class="data-heading"><%= @title %></h2>
+<% {:ok, testnet, prv} = Bitcoin.ExtendedKey.get_xkey_data(@xkey) %>
+<% hex_xkey = Bitcoin.ExtendedKey.split_extended_key(@xkey) %>
+
+<% {pfx, rest} = String.split_at Bitcoin.ExtendedKey.serialize_extended_key(@xkey), 4 %>
+<p class="data-title"><%= (if testnet, do: "Testnet", else: "Mainnet") <> " Extended " <> (if prv, do: "Private", else: "Public") <> " Key:" %></p>
+<p class="data data-inline"><span class="data data-linked" name="xkey-pfx" id="xkey-pfx"><%= pfx %></span><span class="data"><%= rest %></span>
+
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: Bitcoin.ExtendedKey.serialize_extended_key(@xkey)) %></p>
+
+<p class="data-line"><span class="data-title">Prefix:</span> <span class="data data-linked" name="xkey-pfx" id="xkey-pfx"><%= hex_xkey.prefix %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.prefix) %></p>
+
+<p class="data-line"><span class="data-title">Depth:</span> <span class="data data-linked" name="xkey-depth" id="xkey-depth"><%= hex_xkey.depth %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.depth) %></p>
+
+<p class="data-line"><span class="data-title">Parent Fingerprint:</span> <span class="data data-linked" name="xkey-fingerprint" id="xkey-fingerprint"><%= hex_xkey.parent_fingerprint %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.parent_fingerprint) %></p>
+
+<p class="data-line"><span class="data-title">Child Index:</span> <span class="data data-linked" name="xkey-childnum" id="xkey-childnum"><%= hex_xkey.child_num %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.child_num) %></p>
+
+<p class="data-line"><span class="data-title">Chaincode:</span> <span class="data data-linked" name="xkey-chaincode" id="xkey-chaincode"><%= hex_xkey.chaincode %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.chaincode) %></p>
+
+<p class="data-line"><span class="data-title"><%= (if prv, do: "Private", else: "Public") <> " Key:" %></span> <span class="data data-linked" name="xkey-key" id="xkey-key"><%= hex_xkey.key %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.key) %></p>
+
+<p class="data-line"><span class="data-title">Checksum:</span> <span class="data data-linked" name="xkey-checksum" id="xkey-checksum"><%= hex_xkey.checksum %></span>
+<%= render(BitcoinWeb.SharedView, "_copy_to_clipboard.html", conn: @conn, data: hex_xkey.checksum) %></p>
+

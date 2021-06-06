@@ -5,7 +5,10 @@
 		%>
 
 <section class="content">
+	<%= if @option == nil do%>
+	<p>nil</p>
+	<% end %>
 		<%= render(BitcoinWeb.SharedView, "_header.html", title: @option.title) %>
 
-		<%= render("_#{@option.name}_signature_form.html", conn: @conn, action: Routes.signature_path(@conn, :display, option: @option.name)) %>
+		<%= render("_#{@option.name}_signature_form.html", conn: @conn, action: Routes.signature_path(@conn, :display)) %>
 </section>

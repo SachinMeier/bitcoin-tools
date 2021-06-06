@@ -2,19 +2,21 @@ defmodule BitcoinWeb.SignatureController do
   use BitcoinWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html", options: BitcoinWeb.SignatureView.get_signature_options())
+    render(conn, "index.html", 
+      options: BitcoinWeb.SignatureView.get_signature_options(),
+      option: BitcoinWeb.PageView.get_option("signature"))
   end
 
   def parse(conn, _params) do
-    render(conn, "create.html", option: BitcoinWeb.SignatureView.get_option("parse"))
+    render(conn, "create.html", option: BitcoinWeb.SignatureView.get_option(:parse))
   end
 
   def new(conn, _params) do
-    render(conn, "create.html", option: BitcoinWeb.SignatureView.get_option("new"))
+    render(conn, "create.html", option: BitcoinWeb.SignatureView.get_option(:new))
   end
 
   def verify(conn, _params) do
-    render(conn, "create.html", option: BitcoinWeb.SignatureView.get_option("verify"))
+    render(conn, "create.html", option: BitcoinWeb.SignatureView.get_option(:verify))
   end
 
   # VERIFY
@@ -23,37 +25,12 @@ defmodule BitcoinWeb.SignatureController do
                       public_key: public_key,
                       message: message},
       fn m -> display_verify(conn, m) end,
-      fn -> conn
-            |> put_flash(:error, "fields cannot be blank")   
-            |> verify(%{}) end
+      fn -> 
+        conn
+        |> put_flash(:error, "fields cannot be blank")   
+        |> verify(%{}) end
     )
   end
-
-  defp display_verify(conn, m) do
-    {:ok, pubkey} = Bitcoin.PublicKey.parse_public_key(m.public_key)
-    z =
-      m.message
-      |> Bitcoinex.Utils.double_sha256()
-      |> :binary.decode_unsigned()
-    case Bitcoin.Signature.parse_signature(m.signature) do
-      {:ok, sig} -> 
-        if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
-          conn
-          |> put_flash(:info, "valid signature")
-          |> render("display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: :verify)
-        else
-          conn
-          |> put_flash(:error, "invalid signature/public key pair")
-          |> render("create.html", option: BitcoinWeb.SignatureView.get_option("verify"))
-        end
-      {:error, msg} ->
-        conn
-        |> put_flash(:error, msg <> ". Make sure to remove sighash flags from Bitcoin signatures.")
-        |> render("create.html", option: BitcoinWeb.SignatureView.get_option("verify"))
-    end
-  end
-
-
 
   # PARSE
   def display(conn, %{"signature" => signature}) do
@@ -66,10 +43,53 @@ defmodule BitcoinWeb.SignatureController do
     )
   end
 
+  # CREATE
+  def display(conn, %{"private_key" => private_key, "message" => message}) do
+    check_not_null(%{private_key: private_key, message: message},
+      fn m -> display_new(conn, m) end, 
+      fn -> conn
+            |> put_flash(:error, "do not leave private key or message blank")
+            |> new(%{}) end
+    )
+  end
+  
+  def display(conn, _params) do
+		redirect(conn, to: Routes.signature_path(conn, :index))
+	end
+
+  defp display_verify(conn, m) do
+    {:ok, pubkey} = Bitcoin.PublicKey.parse_public_key(m.public_key)
+    z =
+      m.message
+      |> Bitcoinex.Utils.double_sha256()
+      |> :binary.decode_unsigned()
+    case Bitcoin.Signature.parse_signature(m.signature) do
+      {:ok, sig} -> 
+        if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
+          conn
+          |> put_flash(:info, "valid signature")
+          |> render("display_signature.html", 
+              signature: sig,
+              message: m.message, 
+              z: z, 
+              public_key: pubkey, 
+              option: BitcoinWeb.SignatureView.get_option(:verify))
+        else
+          conn
+          |> put_flash(:error, "invalid signature/public key pair")
+          |> render("create.html", option: BitcoinWeb.SignatureView.get_option(:verify))
+        end
+      {:error, msg} ->
+        conn
+        |> put_flash(:error, msg <> ". Make sure to remove sighash flags from Bitcoin signatures.")
+        |> render("create.html", option: BitcoinWeb.SignatureView.get_option(:verify))
+    end
+  end
+
   defp display_parse(conn, m) do
     IO.puts(m.signature)
     case Bitcoin.Signature.parse_signature(m.signature) do
-      {:ok, sig} -> render(conn, "display_signature.html", signature: sig, option: :parse)
+      {:ok, sig} -> render(conn, "display_signature.html", signature: sig, option: BitcoinWeb.SignatureView.get_option(:parse))
       {:error, "invalid signature length"} ->
         conn
         |> put_flash(:error, "Invalid signature length. Make sure to remove sighash flags from Bitcoin signatures.")
@@ -79,17 +99,6 @@ defmodule BitcoinWeb.SignatureController do
         |> put_flash(:error, msg)
         |> parse(%{})
     end
-  end
-
-  # CREATE
-  def display(conn, %{"private_key" => private_key, "message" => message}) do
-    check_not_null(%{private_key: private_key, message: message},
-      fn m -> display_new(conn, m) end, 
-      fn -> conn
-            |> put_flash(:error, "do not leave private key or message blank")
-            |> new(%{}) end
-    )
-    
   end
 
   defp display_new(conn, m) do
@@ -106,7 +115,7 @@ defmodule BitcoinWeb.SignatureController do
         sig = Bitcoin.PrivateKey.sign_message_hash(prvkey, z)
         pubkey = Bitcoin.PrivateKey.to_public_key(prvkey)
         if Bitcoin.Signature.verify_signature(pubkey, z, sig) do
-          render(conn, "display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: :new)
+          render(conn, "display_signature.html", signature: sig, message: m.message, z: z, public_key: pubkey, option: BitcoinWeb.SignatureView.get_option(:new))
         else
           conn
             |> put_flash(:error, "signing failed.")
@@ -115,7 +124,7 @@ defmodule BitcoinWeb.SignatureController do
     end
   end
 
-  defp check_not_null(map, sc, fc) do
+  def check_not_null(map, sc, fc) do
     # Trim all strings
     map = Enum.map(map, fn {k, v} -> {k, String.trim(v)} end)
     nnull = fn {_, str} -> str != "" end

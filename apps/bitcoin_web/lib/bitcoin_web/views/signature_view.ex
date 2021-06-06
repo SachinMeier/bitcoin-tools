@@ -9,8 +9,8 @@ defmodule BitcoinWeb.SignatureView do
 
   def get_signature_options, do: @opts
 
-  def get_option(name_str) do
-    Enum.find(@opts, &(to_string(&1.name) == name_str))
+  def get_option(name_a) do
+    Enum.find(@opts, &(&1.name == name_a))
   end
   # wif: KzhWomzFUcCPHacuWEEiV49zAeQRoPMPe2MXzfLpJY75hCyDrWVQ
   # pubkey: 033b15e1b8c51bb947a134d17addc3eb6abbda551ad02137699636f907ad7e0f1a

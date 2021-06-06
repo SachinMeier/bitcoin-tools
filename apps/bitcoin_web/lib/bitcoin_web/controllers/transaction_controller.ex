@@ -4,13 +4,11 @@ defmodule BitcoinWeb.TransactionController do
   def index(conn, _params) do
     render(conn, "index.html", 
       options: BitcoinWeb.TransactionView.get_transaction_options(),
-      meta_attrs: [%{name: "title", content: "Bitcoin Transaction Tools"},
-                    %{name: "category", content: "transaction"}]
-      )
+      option: BitcoinWeb.PageView.get_option("transaction"))
   end
 
   def parse(conn, _params) do
-    render(conn, "new.html", option: BitcoinWeb.TransactionView.get_option("parse_transaction"))
+    render(conn, "new.html", option: BitcoinWeb.TransactionView.get_option(:parse_transaction))
   end
 
   # PARSE
@@ -21,10 +19,7 @@ defmodule BitcoinWeb.TransactionController do
           transaction: txn, 
           split_hex: split_hex, 
           tx_hex: tx_hex, 
-          option: :parse,
-
-          title: "Parse Bitcoin Transaction",
-          category: "transaction/"
+          option: BitcoinWeb.TransactionView.get_option(:parse_transaction),
         )
       {:error, msg} ->
         conn

@@ -8,24 +8,25 @@
 	<%# favicon %>
 	<link rel="shortcut icon" type="image/ico" href='<%= Routes.static_path(@conn, "/favicon.ico") %>'/>
 
-	<%= if @conn.assigns[:meta_attrs] do %>
-		<%= meta_attrs = @conn.assigns[:meta_attrs] %>
-		<%= BitcoinWeb.LayoutView.meta_tags(meta_attrs) %>
-		<%= BitcoinWeb.LayoutView.og_tags(meta_attrs) %>
+	<title><%= BitcoinWeb.LayoutView.Metatags.page_title(@conn) %></title>
+  <meta name="description" content="<%= BitcoinWeb.LayoutView.Metatags.description(@conn) %>">
 	
-	<% else %>
-		<title>Bitcoin Tools</title>
-  	
-  	
-		<%# OG tags %>
-		<meta property="og:title" content="Bitcoin Tools" />
-		<meta property="og:description" content="Use and understand Bitcoin's Cryptography: Handle public and private keys, addresses, and signatures." />
-		<meta property="og:image" content="<%= Routes.static_path(@conn, "/images/bitcoinscript-logo.jpg") %>" />
-		<meta property="og:url" content="<%= @conn.request_path %>">
-		<meta property="og:type" content="website">
+	<%# Twitter Cards %>
+	<meta name="twitter:card" content="summary_large_image">
+	<meta property="twitter:title" content="<%= BitcoinWeb.LayoutView.Metatags.page_title(@conn) %>">
+	<meta property="twitter:description" content="<%= BitcoinWeb.LayoutView.Metatags.description(@conn) %>">
+	<meta property="twitter:image" content="<%= Routes.static_path(@conn, "/images/bitcoinscript-logo.jpg") %>">
+	<meta property="twitter:site" name="twitter:site" content="@SachinMeier">
 
-		<%# Schema %>
-		<%# render("_schema.html", conn: @conn, _____) %>
+	<%# OG tags %>
+	<meta property="og:title" content="<%= BitcoinWeb.LayoutView.Metatags.page_title(@conn) %>" />
+	<meta property="og:description" content="<%= BitcoinWeb.LayoutView.Metatags.description(@conn) %>" />
+	<meta property="og:image" content="<%= Routes.static_path(@conn, "/images/bitcoinscript-logo.jpg") %>" />
+	<meta property="og:url" content="https://www.bitcoinscript.info<%= @conn.request_path %>">
+	<meta property="og:type" content="website">
 
-	<% end %>
+	<%# Schema %>
+	<%= render("_schema.html", conn: @conn, title: BitcoinWeb.LayoutView.Metatags.page_title(@conn) ) %>
+
+	<%# end %>
 	</head>

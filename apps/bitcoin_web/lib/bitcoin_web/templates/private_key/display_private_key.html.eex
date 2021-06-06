@@ -10,7 +10,7 @@
 		<%= render(BitcoinWeb.SharedView, "_show_private_key.html", conn: @conn, private_key: @private_key, network: @network) %>
 		
 		<% public_key = Bitcoin.PrivateKey.to_public_key(@private_key) %>
-		<%= render(BitcoinWeb.SharedView, "_show_public_key.html", conn: @conn, public_key: public_key, compressed: @compressed, title: "Corresponding Public Key:") %>
+		<%= render(BitcoinWeb.SharedView, "_show_public_key.html", conn: @conn, public_key: public_key, title: "Corresponding Public Key:") %>
 	
 </article>
 

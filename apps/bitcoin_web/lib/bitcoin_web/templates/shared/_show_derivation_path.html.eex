@@ -1,0 +1,1 @@
+<p class="data-line"><span class="data-title">Derivation Path:</span> <span class="data data-inline"><%= @deriv_path %></span></p>
